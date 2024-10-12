@@ -158,6 +158,10 @@ public class Passenger {
         this.embarkedAt = embarkedAt;
     }
 
+    public int CompareToID (Passenger passenger){
+        if(this.passengerId>passenger.getPassengerId())
+        {
 
-
+        }
+    }
 }
