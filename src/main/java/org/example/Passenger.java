@@ -1,9 +1,9 @@
 package org.example;
 
-import java.util.ArrayList;
-
 //ca1
-public class Passenger {
+public class Passenger implements Comparable<Passenger> {
+
+
     private String passengerId;    // passenger number
     private int survived;           // 0=false, 1=true
     private PassengerClass passengerClass;  // passenger class, 1=1st, 2=2nd or 3rd class
@@ -158,10 +158,14 @@ public class Passenger {
         this.embarkedAt = embarkedAt;
     }
 
-    public int CompareToID (Passenger passenger){
-        if(this.passengerId>passenger.getPassengerId())
-        {
-
-        }
+    @Override
+    public int compareTo(Passenger passenger2) {
+        return this.passengerId.compareTo(passenger2.passengerId);
     }
+    //Static Comparators
+    public static int compareByTicketNumber(Passenger passenger1, Passenger passenger2) {
+        return passenger1.getTicketNumber().compareTo(passenger2.ticketNumber);
+    }
+
+
 }
