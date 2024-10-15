@@ -1,5 +1,7 @@
 package org.example;
 
+import static java.lang.Integer.parseInt;
+
 //ca1
 public class Passenger implements Comparable<Passenger> {
 
@@ -160,7 +162,17 @@ public class Passenger implements Comparable<Passenger> {
 
     @Override
     public int compareTo(Passenger passenger2) {
-        return this.passengerId.compareTo(passenger2.passengerId);
+        int passengerID1 =parseInt(this.passengerId);
+        int passengerID2 =parseInt(passenger2.getPassengerId());
+        if(passengerID1 == passengerID2)
+        {
+            return 0;
+        }
+        else if(passengerID1 < passengerID2) {
+            return -1;
+        }
+        else
+            return 1;
     }
     //Static Comparators
     public static int compareByTicketNumber(Passenger passenger1, Passenger passenger2) {

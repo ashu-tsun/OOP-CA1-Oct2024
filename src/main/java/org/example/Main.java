@@ -4,6 +4,7 @@ import java.io. * ;
 import java.sql.Array;
 import java.util.*;
 
+import static java.lang.Integer.parseInt;
 import static org.example.PassengerClass.FIRST;
 
 
@@ -287,7 +288,10 @@ public class Main {
         ArrayList <Passenger> SortedByPassengerId = (ArrayList<Passenger>) passengerList.clone();
 
         Collections.sort(SortedByPassengerId);
-
+        for(Passenger passenger : SortedByPassengerId)
+        {
+            System.out.println(passenger.getPassengerId());
+        }
         return SortedByPassengerId;
     }
 
@@ -377,17 +381,13 @@ public class Main {
 
     public static void findPassengerByPassengerId(ArrayList <Passenger> passengerList, Passenger passengerIn) {
         int passengerById;
-
         ArrayList<Passenger> sortedById = (ArrayList<Passenger>) passengerList.clone();
-
 
         Collections.sort(sortedById);
 
-        for(Passenger passenger : sortedById)
-        {
-            System.out.println(passenger.getPassengerId());
-        }
-        passengerById = Collections.binarySearch(sortedById, passengerIn );
+
+
+        passengerById =Collections.binarySearch(sortedById, passengerIn );
         if(passengerById <0)
         {
 
@@ -395,7 +395,7 @@ public class Main {
         }
         else
         {
-            System.out.println("Value Found at index " + passengerById);
+          //  System.out.println("Value Found at index " + passengerById);
         }
 
     }
