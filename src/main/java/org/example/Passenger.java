@@ -162,8 +162,9 @@ public class Passenger implements Comparable<Passenger> {
 
     @Override
     public int compareTo(Passenger passenger2) {
-        int passengerID1 =parseInt(this.passengerId);
-        int passengerID2 =parseInt(passenger2.getPassengerId());
+           int passengerID1 =parseInt(this.passengerId);
+           int passengerID2 =parseInt(passenger2.getPassengerId());
+
         if(passengerID1 == passengerID2)
         {
             return 0;

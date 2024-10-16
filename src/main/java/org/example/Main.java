@@ -106,7 +106,7 @@ public class Main {
     findPassengerByTicketNumber(passengerList,passengerList.get(5));
 
     System.out.println("\nQuestion 20\nFind Passenger by Id");
-    findPassengerByPassengerId(passengerList,testWrong);
+    findPassengerByPassengerId(passengerList,passengerList.get(5));
 
     System.out.println("Finished, Goodbye!");
     }
@@ -288,10 +288,6 @@ public class Main {
         ArrayList <Passenger> SortedByPassengerId = (ArrayList<Passenger>) passengerList.clone();
 
         Collections.sort(SortedByPassengerId);
-        for(Passenger passenger : SortedByPassengerId)
-        {
-            System.out.println(passenger.getPassengerId());
-        }
         return SortedByPassengerId;
     }
 
@@ -351,6 +347,7 @@ public class Main {
     public static ArrayList <Passenger> sortPassengersByTicketNumberLambda(ArrayList<Passenger> passengerList) {
         ArrayList<Passenger> sortedByTicketNumber = (ArrayList<Passenger>) passengerList.clone();
         sortedByTicketNumber.sort((Passenger passenger1, Passenger passenger2) -> passenger1.getTicketNumber().compareTo(passenger2.getTicketNumber()));
+
         return sortedByTicketNumber;
     }
 
@@ -384,18 +381,14 @@ public class Main {
         ArrayList<Passenger> sortedById = (ArrayList<Passenger>) passengerList.clone();
 
         Collections.sort(sortedById);
-
-
-
         passengerById =Collections.binarySearch(sortedById, passengerIn );
         if(passengerById <0)
         {
-
             System.out.println("Value Not Found in array");
         }
         else
         {
-          //  System.out.println("Value Found at index " + passengerById);
+           System.out.println("Value Found at index " + passengerById);
         }
 
     }
