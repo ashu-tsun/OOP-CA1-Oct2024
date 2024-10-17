@@ -162,22 +162,31 @@ public class Passenger implements Comparable<Passenger> {
 
     @Override
     public int compareTo(Passenger passenger2) {
+        //Changes the id to an int to compare numerically
            int passengerID1 =parseInt(this.passengerId);
            int passengerID2 =parseInt(passenger2.getPassengerId());
 
-        if(passengerID1 == passengerID2)
-        {
-            return 0;
-        }
-        else if(passengerID1 < passengerID2) {
-            return -1;
-        }
-        else
-            return 1;
+           //if equal, don't change position, if passenger 2's is bigger, then move it before 1's
+        //otherwise place it after
+        return Integer.compare(passengerID1, passengerID2);
     }
     //Static Comparators
     public static int compareByTicketNumber(Passenger passenger1, Passenger passenger2) {
-        return passenger1.getTicketNumber().compareTo(passenger2.ticketNumber);
+        //Checks if the ticket is fully a number
+        boolean isNumber1 = passenger1.getTicketNumber().contains(" ") != true;
+        boolean isNumber2 = passenger2.getTicketNumber().contains(" ") != true;
+
+        //if both are numbers then compare them as such
+        if(isNumber1 && isNumber2)
+        {
+            return Integer.compare(parseInt(passenger1.getTicketNumber()), parseInt(passenger2.getTicketNumber()));
+        }
+        //if they are not numbers then compare them as strings alphabetically
+        else
+        {
+            return passenger1.getTicketNumber().compareTo(passenger2.ticketNumber);
+        }
+
     }
 
 

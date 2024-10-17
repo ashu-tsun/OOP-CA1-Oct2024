@@ -1,11 +1,9 @@
 package org.example;
 // CA1
 import java.io. * ;
-import java.sql.Array;
 import java.util.*;
 
-import static java.lang.Integer.parseInt;
-import static org.example.PassengerClass.FIRST;
+
 
 
 public class Main {
@@ -41,7 +39,7 @@ public class Main {
     System.out.println(countByGender);
 
     System.out.println("\nQuestion 5\nSum of Fares");
-    int sumOfFares =sumFares(passengerList);
+    double sumOfFares =sumFares(passengerList);
     System.out.println("The sum of fares is: €" +sumOfFares);
 
     System.out.println("\nQuestion 6\nMale Survivors");
@@ -75,7 +73,7 @@ public class Main {
     ArrayList <Passenger> sortedPassengersByAgeThenName =sortPassengersByAgeThenName(passengerList);
     System.out.println(sortedPassengersByAgeThenName);
 
-    //The question said "Passenger Number" which isnt a thing, so I assumed passenger id
+    //The question said "Passenger Number" which isn't a thing, so I assumed passenger id
     System.out.println("\nQuestion 13\nSort Passengers by Gender then Passenger Id");
     ArrayList <Passenger> sortedPassengersByGenderThenNumber =sortPassengersByGenderThenPassengerNumber(passengerList);
     System.out.println(sortedPassengersByGenderThenNumber);
@@ -102,7 +100,7 @@ public class Main {
 
     System.out.println("\nQuestion 19\nFind Passenger by Ticket Number");
     //I created a passenger to test if it wasn't in the array
-    Passenger testWrong = new Passenger ("",0,3,"Braund; Mr. Owen Harris", "male", 22, 1, 0, "NoTicket", 7.25, "NoCabin","S");
+    Passenger testWrong = new Passenger ("101",0,3,"Braund", "male", 22, 1, 0, "NoTicket", 7.25, "NoCabin","S");
     findPassengerByTicketNumber(passengerList,passengerList.get(5));
 
     System.out.println("\nQuestion 20\nFind Passenger by Id");
@@ -179,6 +177,7 @@ public class Main {
     //CA Questions Start Here
     public static String [] getPassengerNames(ArrayList<Passenger> passengerList) {
         String[] passengerNames = new String[passengerList.size()];
+        //Create a new list and cycling through the original, add the names
         for (Passenger passenger : passengerList)
         {
             passengerNames[passengerList.indexOf(passenger)] = passenger.getName();
@@ -188,6 +187,7 @@ public class Main {
 
     public static ArrayList <Passenger> getPassengersContainingNames(ArrayList<Passenger> passengerList, String nameIn) {
         ArrayList <Passenger> passengerContainingName= new ArrayList <Passenger>();
+        //Create a new array list and cycling through the original; check of the name matches the one brought in
         for( Passenger passenger : passengerList)
         {
             if(passenger.getName().contains(nameIn))
@@ -201,6 +201,7 @@ public class Main {
 
     public static ArrayList <Passenger> getPassengersOlderThan(ArrayList<Passenger> passengerList, int ageIn) {
         ArrayList <Passenger> passengersOlderThan  = new ArrayList <Passenger>();
+        //Create a new array list and cycling through the original; if the taken in age matches the age of the passenger, then add the passenger to the new list
         for( Passenger passenger : passengerList)
         {
             if(passenger.getAge() > ageIn)
@@ -212,9 +213,12 @@ public class Main {
         return passengersOlderThan;
     }
 
+    //The wording of this question was confusing, it said to return a list, but it was called a count, I decided to return the list of passengers who fit the criteria while also printing out how many there were.
     public static ArrayList <Passenger> countPassengersByGender(ArrayList<Passenger> passengerList, String gender) {
         ArrayList <Passenger> countGender = new ArrayList<Passenger>();
         int count = 0;
+        //Create a new array list and cycling through the original; check if each passenger matches with the inputted gender,
+        //Then increase the count and add this passenger to the list
         for( Passenger passenger : passengerList)
         {
             if(passenger.getGender().equals(gender.toLowerCase()))
@@ -227,8 +231,9 @@ public class Main {
         return countGender;
     }
 
-    public static int sumFares (ArrayList <Passenger> passengerList) {
-        int sum = 0;
+    public static double sumFares (ArrayList <Passenger> passengerList) {
+        double sum = 0;
+        //This loops through all passengers and adds their fares to a total which is returned at the end
         for( Passenger passenger : passengerList)
         {
             sum += passenger.getFare();
@@ -239,9 +244,10 @@ public class Main {
 
     public static ArrayList <String>  maleSurvivors(ArrayList <Passenger> passengerList) {
         ArrayList <String> maleSurvivorsList = new ArrayList <String>();
+        //Create a new array list and cycling through the original; checks if the passenger is male and survived then adds their name to the list
         for( Passenger passenger : passengerList)
         {
-            if(passenger.getGender().equals("male"))
+            if(passenger.getGender().equals("male") && passenger.getSurvived() == 1)
             {
                 maleSurvivorsList.add(passenger.getName());
             }
@@ -252,6 +258,8 @@ public class Main {
 
     public static Passenger ticketOwner(ArrayList<Passenger> passengerList, String ticketNumber) {
         Passenger PassengerInfo = null;
+        //Creates an empty passenger to store the found passenger
+        //Loops through all passengers to and compares their ticket number with the inputted one, once found they are stored in the empty passenger to be returned
         for( Passenger passenger : passengerList)
         {
             if(ticketNumber.equals(passenger.getTicketNumber()))
@@ -264,16 +272,19 @@ public class Main {
 
     public static int averageAge (ArrayList <Passenger> passengerList) {
         int averageAge = 0;
+        //Creates an empty total and loops through every passenger, it adds the passengers age to the total
         for( Passenger passenger : passengerList)
         {
             averageAge += passenger.getAge();
         }
+        //Then I divide the average age by the amount of people in the list
         averageAge /= passengerList.size();
         return averageAge;
     }
 
     public static ArrayList <Passenger> getPassengersByTicketClass(ArrayList<Passenger> passengerList,PassengerClass ticketClass) {
         ArrayList <Passenger> classPassengers = new ArrayList <Passenger>();
+        //Create a new array list and cycling through the original; I check if the passengers class is equal to the inputted one, if so I then add it to the new list
         for( Passenger passenger : passengerList)
         {
             if(ticketClass.equals(passenger.getPassengerClass()))
@@ -283,23 +294,29 @@ public class Main {
         }
         return classPassengers;
     }
-    //this works for id being a string but it will treat the numbers alphabetically
-    public static ArrayList <Passenger> sortPassengersByPassengerId(ArrayList <Passenger> passengerList) {
-        ArrayList <Passenger> SortedByPassengerId = (ArrayList<Passenger>) passengerList.clone();
 
+    public static ArrayList <Passenger> sortPassengersByPassengerId(ArrayList <Passenger> passengerList) {
+        //I clone the original list as to not disrupt it
+        ArrayList <Passenger> SortedByPassengerId = (ArrayList<Passenger>) passengerList.clone();
+        //Then using the sort function, I call the override compareTo method in the Passenger class to sort the id's
         Collections.sort(SortedByPassengerId);
         return SortedByPassengerId;
     }
 
+    //The comparators i use using the Comparator utility are from visual studio code suggestions, they are similar to the lamda version of comparators
+    // I also looked at some multiple field comparing on 
     public static ArrayList <Passenger> sortPassengersByName(ArrayList <Passenger> passengerList) {
         ArrayList <Passenger> SortedByPassengerName = (ArrayList<Passenger>) passengerList.clone();
+        //I create a new comparator and name it appropriately, the "comparator.comparing" will then use whats in the brackets to sort the  custom objects, in this case it gets the names
         Comparator<Passenger> passengerNameComparator = Comparator.comparing(Passenger::getName);
+        //This will sort the new created list using the comparator above
         Collections.sort(SortedByPassengerName,passengerNameComparator);
         return SortedByPassengerName;
     }
 
     public static ArrayList <Passenger> sortPassengersByAgeThenName(ArrayList <Passenger> passengerList) {
         ArrayList <Passenger> SortedByPassengerAgeThenName = (ArrayList<Passenger>) passengerList.clone();
+        //A similar process to the above method but this time it uses .then comparing to allow for more requirements by then comparing the names
         Comparator<Passenger> passengerAgeThenNameComparator =
                 Comparator.comparing(Passenger::getAge)
                 .thenComparing(Passenger::getName);
@@ -335,7 +352,7 @@ public class Main {
 
     public static ArrayList<Passenger> sortPassengersByAge(ArrayList<Passenger> passengerList) {
         ArrayList<Passenger> sortedByAge = (ArrayList<Passenger>) passengerList.clone();
-
+        //implements a new compare to for integers to compare the ages, then sorts them
         Collections.sort(sortedByAge, new Comparator<Passenger>() {
             @Override
             public int compare(Passenger passenger1, Passenger otherPassenger) {
@@ -346,6 +363,7 @@ public class Main {
 
     public static ArrayList <Passenger> sortPassengersByTicketNumberLambda(ArrayList<Passenger> passengerList) {
         ArrayList<Passenger> sortedByTicketNumber = (ArrayList<Passenger>) passengerList.clone();
+        //The lambda comparator (underlined it shows the comparator.comparing method I use) it compares the ticket numbers as strings
         sortedByTicketNumber.sort((Passenger passenger1, Passenger passenger2) -> passenger1.getTicketNumber().compareTo(passenger2.getTicketNumber()));
 
         return sortedByTicketNumber;
@@ -353,17 +371,21 @@ public class Main {
 
     public static ArrayList <Passenger> sortPassengersByTicketNumberStatic(ArrayList<Passenger> passengerList) {
         ArrayList<Passenger> sortedByTicketNumberStatic = (ArrayList<Passenger>) passengerList.clone();
+        //this uses the static method in the passenger class to sort the passengers in order of ticket number
         sortedByTicketNumberStatic.sort(Passenger ::compareByTicketNumber);
+
         return sortedByTicketNumberStatic;
     }
 
     public static void findPassengerByTicketNumber(ArrayList <Passenger> passengerList, Passenger passengerIn) {
-        int passengerByTicketNumber;
+        int passengerByTicketNumber; //empty int for the index of the passenger
 
         ArrayList<Passenger> sortedByTicketNumberStatic = (ArrayList<Passenger>) passengerList.clone();
         sortedByTicketNumberStatic.sort(Passenger ::compareByTicketNumber);
 
+        //uses the binary search method to search for the inputted ticket number, it uses the static sorting method from a previous question
         passengerByTicketNumber = Collections.binarySearch(sortedByTicketNumberStatic, passengerIn, Passenger ::compareByTicketNumber);
+        //if the index is -1 then it is not in the array
         if(passengerByTicketNumber <0)
         {
 
@@ -379,8 +401,9 @@ public class Main {
     public static void findPassengerByPassengerId(ArrayList <Passenger> passengerList, Passenger passengerIn) {
         int passengerById;
         ArrayList<Passenger> sortedById = (ArrayList<Passenger>) passengerList.clone();
-
+        //uses natural order comparing to sort the passengers
         Collections.sort(sortedById);
+        //uses a binary search on the sorted array
         passengerById =Collections.binarySearch(sortedById, passengerIn );
         if(passengerById <0)
         {
