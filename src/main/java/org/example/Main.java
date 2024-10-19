@@ -2,13 +2,13 @@ package org.example;
 // CA1
 import java.io. * ;
 import java.util.*;
-
+import java.util.Scanner;
 
 
 
 public class Main {
     public static void main(String[] args) {
-
+        Scanner keyboard = new Scanner(System.in);
         String fileName = "titanic-data-100.csv"; // file should be in the project folder (below pom.xml)
 
         ArrayList<Passenger> passengerList= new ArrayList<>();
@@ -24,19 +24,36 @@ public class Main {
     String [] passengerNames =getPassengerNames(passengerList);
     System.out.println(Arrays.toString(passengerNames));
 
-    System.out.println("\nQuestion 2\nPassengers with the name William");
-    ArrayList <Passenger> passengerContainingNames =getPassengersContainingNames(passengerList, "William");
+    System.out.println("\nQuestion 2\nPassengers with the name inputted, please input a name");
+    String name =keyboard.nextLine();
+    ArrayList <Passenger> passengerContainingNames =getPassengersContainingNames(passengerList, name);
     System.out.println(passengerContainingNames);
 
-    System.out.println("\nQuestion 3\nPassengers older than 60");
-    ArrayList <Passenger> OlderThanPassengers = getPassengersOlderThan(passengerList, 60);
+    System.out.println("\nQuestion 3\nPassengers older than age inputted, please input an age");
+    int age =keyboard.nextInt();
+    ArrayList <Passenger> OlderThanPassengers = getPassengersOlderThan(passengerList, age);
     System.out.println(OlderThanPassengers);
 
-    System.out.println("\nQuestion 4\nPassengers by gender");
+    System.out.println("\nQuestion 4\nPassengers by gender, input 1 for female and 2 for men");
     //I was unsure whether this question was asking for the count of just a list of passengers with that gender,
     // so I had it return the list and print out the count
-    ArrayList <Passenger> countByGender =countPassengersByGender(passengerList, "Female");
-    System.out.println(countByGender);
+    int option =keyboard.nextInt();
+    keyboard.nextLine();
+    if(option==1)
+    {
+        String gender = "Female";
+        ArrayList <Passenger> countByGender =countPassengersByGender(passengerList, "gender");
+        System.out.println(countByGender);
+    }
+    else if(option==2)
+    {
+        String gender = "Male";
+        ArrayList <Passenger> countByGender =countPassengersByGender(passengerList, gender);
+        System.out.println(countByGender);
+    }
+    else {
+        System.out.println("Sorry I dont understand");
+    }
 
     System.out.println("\nQuestion 5\nSum of Fares");
     double sumOfFares =sumFares(passengerList);
@@ -46,20 +63,40 @@ public class Main {
     ArrayList <String> maleSurvivorsList =maleSurvivors(passengerList);
     System.out.println(maleSurvivorsList);
 
-    System.out.println("\nQuestion 7\nTicket Owner of Ticket 'PP 9549'");
-    Passenger ticketOwner =ticketOwner(passengerList,"PP 9549");
+    System.out.println("\nQuestion 7\nTicket Owner, please input a ticket number, e.g PP 9549");
+
+    String ticketNumber =keyboard.nextLine();
+    Passenger ticketOwner =ticketOwner(passengerList,ticketNumber);
     System.out.println(ticketOwner);
-    System.out.println("\nTicket Owner of fake Ticket 'PP 9541'");
-    Passenger ticketOwner2 =ticketOwner(passengerList,"PP 9541");
-    System.out.println(ticketOwner2);
 
     System.out.println("\nQuestion 8\nAverage Age");
     int avgAge =averageAge(passengerList);
     System.out.println(avgAge);
 
     System.out.println("\nQuestion 9\nPassengers by Class");
-    ArrayList <Passenger> classPassengers=getPassengersByTicketClass(passengerList,PassengerClass.FIRST);
-    System.out.println(classPassengers);
+    String passengerClass = keyboard.nextLine().toUpperCase();
+    if(passengerClass.equals("FIRST"))
+    {
+        ArrayList <Passenger> classPassengers=getPassengersByTicketClass(passengerList,PassengerClass.FIRST);
+        System.out.println(classPassengers);
+    }
+    else if(passengerClass.equals("SECOND"))
+    {
+        ArrayList <Passenger> classPassengers=getPassengersByTicketClass(passengerList,PassengerClass.SECOND);
+        System.out.println(classPassengers);
+    }
+    else if(passengerClass.equals("THIRD"))
+    {
+        ArrayList <Passenger> classPassengers=getPassengersByTicketClass(passengerList,PassengerClass.THIRD);
+        System.out.println(classPassengers);
+    }
+    else
+    {
+        ArrayList <Passenger> classPassengers=getPassengersByTicketClass(passengerList,PassengerClass.UNKNOWN);
+        System.out.println(classPassengers);
+    }
+
+
 
     System.out.println("\nQuestion 10\nSort Passengers by Id");
     ArrayList <Passenger> sortedPassengersId =sortPassengersByPassengerId(passengerList);
@@ -99,12 +136,14 @@ public class Main {
     System.out.println(sortedPassengersByTicketNumberStatic);
 
     System.out.println("\nQuestion 19\nFind Passenger by Ticket Number");
-    //I created a passenger to test if it wasn't in the array
-    Passenger testWrong = new Passenger ("101",0,3,"Braund", "male", 22, 1, 0, "NoTicket", 7.25, "NoCabin","S");
-    findPassengerByTicketNumber(passengerList,passengerList.get(5));
+    String inputNumber = keyboard.nextLine();
+    Passenger inputPassenger = new Passenger ("",0,0,"", "", 0, 0, 0, inputNumber, 0, "","");
+    findPassengerByTicketNumber(passengerList,inputPassenger);
 
     System.out.println("\nQuestion 20\nFind Passenger by Id");
-    findPassengerByPassengerId(passengerList,passengerList.get(5));
+    String inputID = keyboard.nextLine();
+    Passenger inputPassengerID = new Passenger (inputID,0,0,"", "", 0, 0, 0, "", 0, "","");
+    findPassengerByPassengerId(passengerList,inputPassengerID);
 
     System.out.println("Finished, Goodbye!");
     }
@@ -304,7 +343,9 @@ public class Main {
     }
 
     //The comparators i use using the Comparator utility are from visual studio code suggestions, they are similar to the lamda version of comparators
-    // I also looked at some multiple field comparing on 
+    // I also looked at some multiple field comparing on https://stackoverflow.com/questions/369512/how-to-compare-objects-by-multiple-fields
+    //and on https://javarevisited.blogspot.com/2021/09/comparator-comparing-thenComparing-example-java-.html
+    //I felt as though I understood these clearer
     public static ArrayList <Passenger> sortPassengersByName(ArrayList <Passenger> passengerList) {
         ArrayList <Passenger> SortedByPassengerName = (ArrayList<Passenger>) passengerList.clone();
         //I create a new comparator and name it appropriately, the "comparator.comparing" will then use whats in the brackets to sort the  custom objects, in this case it gets the names
